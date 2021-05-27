@@ -84,7 +84,7 @@ def inputSrcInfo (folderPath):
     folderAdded = False
 
     """
-    outputCSV.write("Sl" + "\t" + "Level" + "\t" + "Type" + "t" + "Parent Folder" + "\t" + "Curr File" + "\n")
+    outputCSV.write("Sl" + "\t" + "Level" + "\t" + "Type" + "\t" + "Parent Folder" + "\t" + "Curr File" + "\n")
     Changed the variable name
     sourceCSVFile.write("Sl" + "\t" + "Level" + "\t" + "Type" + "\t" + "Parent Folder" + "\t" + "Curr File" + "\n")
     """
