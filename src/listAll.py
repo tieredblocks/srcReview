@@ -13,6 +13,7 @@ configParser.read(configFilePath)
 
 outputFolder = configParser.get('config-params', 'outputFolder')
 outputFile = configParser.get('config-params', 'outputFile')
+outputInfo = configParser.get('config-params', 'outputInfo')
 
 sourceFolder = configParser.get('config-params', 'codeDump')
 fileEntry = configParser.get('config-params', 'type1')
@@ -34,7 +35,7 @@ if debugPrint == "yes":
     print("fileEntry is: " + fileEntry)
     print(folderEntry)
 
-outputCSV = open("../output/outputInfo.csv", "w")
+outputCSV = open(outputInfo, "w")
 
 folderArr = [sourceFolder]
 baseLevel = len(re.findall("/", sourceFolder))
