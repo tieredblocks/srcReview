@@ -1,13 +1,61 @@
 import os
 import re
+import configparser
 
-sourceCSVFile = open("/home/madhup/Documents/dev/folderInfo.csv" , "w")
-sourceFolder = "/home/madhup/Documents/postgre/postgresql-12.3"
-folderArr=[sourceFolder]
-fileEntry = "file"
-folderEntry = "folder"
+"""
+This is the section where information is being retrieved from configuration file
+1. Config file is present in config/config.txt file
+2. Output Info will be stored in outputInfo file
+"""
+configParser = configparser.RawConfigParser()
+configFilePath = r'../config/config.ini'
+configParser.read(configFilePath)
+
+outputFolder = configParser.get('config-params', 'outputFolder')
+outputFile = configParser.get('config-params', 'outputFile')
+outputInfo = configParser.get('config-params', 'outputInfo')
+
+sourceFolder = configParser.get('config-params', 'codeDump')
+fileEntry = configParser.get('config-params', 'type1')
+folderEntry = configParser.get('config-params', 'type2')
+
+debugPrint = configParser.get('config-params', 'debugPrint')
+
+"""debug statements"""
+if debugPrint == "yes":
+    print("Start the debug statements")
+    print("sourceFolder is: " + sourceFolder)
+    sourceFolderParam = configParser.get('config-params', 'codeDumpParam')
+    outputDir = configParser.get('config-params', 'outputDir')
+    print("Source Code Param is : " + sourceFolderParam)
+    print("Output Directory is :" + outputDir)
+    print("outputInfo is: " + outputFolder)
+    print("output file is " + outputFile)
+    print("complete file path is " + outputFolder + outputFile)
+    print("fileEntry is: " + fileEntry)
+    print(folderEntry)
+
+outputCSV = open(outputInfo, "w")
+
+folderArr = [sourceFolder]
 baseLevel = len(re.findall("/", sourceFolder))
 dirLevel = 0
+
+"""
+Old Source Code put here
+sourceCSVFile = open("/home/madhup/Documents/dev/folderInfo.csv" , "w")
+outputCSV = ""
+sourceFolder = "/home/madhup/Documents/postgre/postgresql-12.3"
+fileEntry = "file"
+folderEntry = "folder"
+
+folderArr=[sourceFolder]
+baseLevel = len(re.findall("/", sourceFolder))
+dirLevel = 0
+
+"""
+
+
 
 
 """
@@ -35,7 +83,13 @@ def inputSrcInfo (folderPath):
     folderLevel = 0
     folderAdded = False
 
+    """
+    outputCSV.write("Sl" + "\t" + "Level" + "\t" + "Type" + "t" + "Parent Folder" + "\t" + "Curr File" + "\n")
+    Changed the variable name
     sourceCSVFile.write("Sl" + "\t" + "Level" + "\t" + "Type" + "\t" + "Parent Folder" + "\t" + "Curr File" + "\n")
+    """
+
+    outputCSV.write("Sl" + "\t" + "Level" + "\t" + "Type" + "\t" + "Parent Folder" + "\t" + "Curr File" + "\n")
 
     while outerCount < len(folderArr):
         folderList = os.listdir(folderArr[outerCount])
@@ -61,15 +115,11 @@ def inputSrcInfo (folderPath):
                 folderArr.append(childEntry)
                 newEntry += folderEntry + "\t" + parentFolder + "\t" + entry + "\n"
                 subDirCount += 1
-                
-                sourceCSVFile.write(newEntry)
+                outputCSV.write(newEntry)
             else:
                 newEntry += fileEntry + "\t" + parentFolder + "\t" + entry + "\n"
-                sourceCSVFile.write(newEntry)
+                outputCSV.write(newEntry)
+
 
 
 inputSrcInfo(sourceFolder)
-
-
-
-
